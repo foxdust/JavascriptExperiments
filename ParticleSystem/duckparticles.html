@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+canvas{
+    position:absolute;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+
+function Particle(width, height, img) {
+	this.images = [];
+    if (img !== undefined) {
+        for (var i = 0; i < img.length; ++i) {
+       		this.images[i] = new Image();
+	        this.images[i].src = img[i];
+        }
+    }
+    this.type = "";
+	this.x = 0;
+	this.y = 0;
+	this.width = width;
+	this.height = height;
+	this.animationSequence = this.images;
+    this.animationFrame = 0;
+    this.frameCount = 0;
+	this.animationSpeed = 20;
+	this.xSpawn = [0, 1280];
+	this.ySpawn = [0, 720]
+	this.xSpeed = 0;
+	this.ySpeed = 0;
+	this.xScale = 1;
+	this.yScale = 1;
+    this.gravity = 0;
+	this.xScaleSpeed = 0;
+	this.yScaleSpeed = 0;
+	this.angle = 90;
+    this.angleSpeed = 3;
+    this.rotation = 0;
+	this.rotationSpeed = 0;
+	this.recurring = false;
+    this.offscreen = false;
+    this.life = -1;
+    this.delay = 0;
+    this.alive = true;
+    this.delayDefault = this.delay;
+    this.lifeDefault = this.life;
+    this.angleDefault = this.angle;
+    this.rotationDefault = this.rotation;
+    this.recurringDefault = this.recurring;
+    this.xScaleDefault = this.xScale;
+    this.yScaleDefault = this.yScale;
+    this.gravityDefault = this.gravity;
+    this.xScaleSpeedDefault = this.xScaleSpeed;
+	this.yScaleSpeedDefault = this.yScaleSpeed;
+        
+    this.saveDefaults = function() {
+    	this.delayDefault = this.delay;
+	    this.lifeDefault = this.life;
+	    this.angleDefault = this.angle;
+	    this.rotationDefault = this.rotation;
+	    this.recurringDefault = this.recurring;
+	    this.xScaleDefault = this.xScale;
+	    this.yScaleDefault = this.yScale;
+        this.gravityDefault = this.gravity;
+		this.xScaleSpeedDefault = this.xScaleSpeed;
+		this.yScaleSpeedDefault = this.yScaleSpeed;
+    }
+    this.loadDefaults = function() {
+    	this.rotation = 0;
+        this.alive = true;
+        this.delay = this.delayDefault;
+        this.gravity = this.gravityDefault;
+    	this.life = this.lifeDefault;
+	    this.angle = this.angleDefault;
+	    this.rotation = this.rotationDefault;
+	    this.recurring = this.recurringDefault;
+	    this.xScale = this.xScaleDefault;  
+	    this.yScale = this.yScaleDefault;  
+        this.xScaleSpeed = this.xScaleSpeedDefault;
+		this.yScaleSpeed = this.yScaleSpeedDefault;
+    }
+    this.update = function(){
+    	if(this.alive){
+            if(this.delay == 0) {
+            	if (this.life > 0) { this.life--; }
+                if (this.life === 0) {
+                  if (this.recurring) {
+                    this.respawn();
+                  }
+                }
+                this.animate();
+                this.movement();
+                //this.offscreenCheck();
+                this.draw();
+        	}
+            else {
+            	this.delay--;
+            }
+    	}
+    }
+    this.offscreenCheck = function() {
+    	if ((this.x < -120)||(this.x > 1500)||(this.y < -120)||(this.y > 900)) {
+        	if (this.recurring) {
+        		this.respawn();
+            }
+            else {
+            	this.alive = false;
+            }
+    	}
+    }
+    this.respawn = function(){
+    	this.loadDefaults();
+	    this.x = Math.floor(Math.random()*this.xSpawn[1])+this.xSpawn[0];
+	    this.y = Math.floor(Math.random()*this.ySpawn[1])+this.ySpawn[0];
+    }
+    this.animate = function(){
+        this.frameCount++;
+        if (this.frameCount%this.animationSpeed === 0) {
+           this.animationFrame++;
+           if (this.animationFrame >= this.images.length) {
+              this.animationFrame = 0;
+           }
+        }
+    }
+    this.movement = function() {
+    	if (this.angleSpeed > 0) {
+	        var tempangle = (this.angle * Math.PI)/180
+	        this.x += this.angleSpeed * Math.sin(tempangle);
+	        this.y -= this.angleSpeed * Math.cos(tempangle);
+        }
+        else {
+	        this.x += this.xSpeed;
+	        this.y += this.ySpeed;
+		}
+        this.rotation+= this.rotationSpeed;
+    }
+    this.draw = function(){
+        ctx = myGameArea.context;
+		ctx.mozImageSmoothingEnabled = false;
+		ctx.webkitImageSmoothingEnabled = false;
+		ctx.msImageSmoothingEnabled = false;
+		ctx.imageSmoothingEnabled = false;
+        ctx.save();
+        if ((this.life < 20)&&(this.life > 0)) {
+        	ctx.globalAlpha = this.life*0.03;
+        }
+        this.xScale+=this.xScaleSpeed;
+        this.yScale+=this.yScaleSpeed;
+        ctx.scale(this.xScale,this.yScale)
+		ctx.translate(this.x/this.xScale,this.y/this.yScale);
+		ctx.rotate(this.rotation*Math.PI/180);
+		ctx.drawImage(this.images[this.animationFrame],-this.width/2,-this.height/2);
+		ctx.restore();
+    }
+}
+
+function duckify(particle) {
+    particle.xSpawn = [-720, 1280];
+    particle.ySpawn = [780, 780];
+    particle.x = Math.floor(Math.random()*particle.xSpawn[1])+particle.xSpawn[0];
+    particle.y = Math.floor(Math.random()*particle.ySpawn[1])+particle.ySpawn[0];
+    particle.angle = 45;
+    particle.animationSpeed = 10;
+    particle.angleSpeed = 3;
+    particle.xScale = 2;
+    particle.yScale = 2;
+    particle.delay = Math.floor(Math.random()*500);
+    particle.rotationSpeed = Math.random()*4 - 2;
+    particle.yScaleSpeed = 0.005;
+    particle.xScaleSpeed = 0.005;
+    particle.life = Math.floor(Math.random()*10)+800;
+    particle.angle = Math.floor(Math.random()*20)+45;
+    particle.recurring = true;
+    particle.saveDefaults();
+}
+
+var myBackground;
+var myTestParticle = [];
+
+var ducks = ["http://zetaplays.wheelofcrap.com/stuff/duck1.png", "http://zetaplays.wheelofcrap.com/stuff/duck2.png"];
+
+function startGame() {
+	for (var i = 0; i < 100; i++) {
+        myTestParticle[i] = new Particle(35, 35, ducks);
+        duckify(myTestParticle[i]);
+    }
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 1366;
+        this.canvas.height = 768;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 1000/60);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    }
+}
+
+remove_item = function (arr, value) {
+    for (i = 0; i < arr.length; i++) {
+        if (arr[i] === value) {
+            arr.splice(i, 1);
+            return arr;
+            break;
+        }
+    }
+    return arr;
+}
+
+function updateGameArea() {
+    myGameArea.clear(); 
+    for (var i = 0; i < myTestParticle.length; i++) {
+	    myTestParticle[i].update();
+    }
+}
+
+</script>
+</body>
+</html>
