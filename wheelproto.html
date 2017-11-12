@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    arc {
+    transform-origin: 50% 50%;
+    }
+  </style>
+<script>
+function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+  return {
+    x: centerX + (radius * Math.cos(angleInRadians)),
+    y: centerY + (radius * Math.sin(angleInRadians))
+  };
+}
+
+function describeArc(x, y, radius, startAngle, endAngle){
+
+    var start = polarToCartesian(x, y, radius, endAngle);
+    var end = polarToCartesian(x, y, radius, startAngle);
+
+    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+    var d = [
+        "M", start.x, start.y, 
+        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+    ].join(" ");
+
+    return d;       
+}
+
+window.onload = function() {
+  document.getElementById("arc1").setAttribute("d", describeArc(150, 150, 100, 0, 16));
+};
+
+var intel = 0;
+var myvar = setInterval(update, 50);
+
+function rotate(cx, cy, x, y, angle) {
+    var radians = (Math.PI / 180) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+}
+
+function getcolor(){
+  var numbertest = Math.floor(Math.random()*90)+10;
+  return numbertest.toString();
+}
+
+var length = 140;
+var anglez = 90;
+
+function update(){
+    intel++;
+  var j = 1;
+  while (j < 25){
+    var i = 1;
+    while (i < 5) {
+      var start1 = polarToCartesian(300, 300, (163-(i*22)), 7+((j-1)*15)+intel);
+      document.getElementById("arc"+j+"txt"+i).setAttribute("transform", "translate("+(start1.x-150)+","+(start1.y-150)+") rotate("+ (intel+((j-1)*15)+10) + " 150 150)");
+      //document.getElementById("arc"+j+"txt"+i).innerHTML = Math.floor(Math.random()*9);
+      i++
+    }
+    document.getElementById("arc"+j).setAttribute("stroke", "#"+getcolor()+getcolor()+getcolor());
+    document.getElementById("arc"+j).setAttribute("d", describeArc(300, 300, 100, 0+((j-1)*15)+intel, 15+((j-1)*15)+intel));
+    j++;
+  }
+}
+</script>
+</head>
+<body>
+  <svg width="1200" height="1200">
+<path id="arc1" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc1txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc1txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc1txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc1txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc2" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc2txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc2txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc2txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc2txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc3" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc3txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc3txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc3txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc3txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc4" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc4txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc4txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc4txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc4txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc5" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc5txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc5txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc5txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc5txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc6" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc6txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc6txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc6txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc6txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc7" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc7txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc7txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc7txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc7txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc8" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc8txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc8txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc8txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc8txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc9" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc9txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc9txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc9txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc9txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc10" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc10txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc10txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc10txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc10txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc11" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc11txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc11txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc11txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc11txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc12" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc12txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc12txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc12txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc12txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc13" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc13txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc13txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc13txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc13txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc14" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc14txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc14txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc14txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc14txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc15" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc15txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc15txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc15txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc15txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc16" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc16txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc16txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc16txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc16txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc17" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc17txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc17txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc17txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc17txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc18" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc18txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc18txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc18txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc18txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc19" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc19txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc19txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc19txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc19txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc20" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc20txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc20txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc20txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc20txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc21" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc21txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc21txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc21txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc21txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc22" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc22txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc22txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc22txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc22txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc23" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc23txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc23txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc23txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc23txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+<path id="arc24" fill="none" stroke="#446688" stroke-width="120" />
+<text id="arc24txt1" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc24txt2" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc24txt3" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+<text id="arc24txt4" text-anchor="middle" dominant-baseline="central" x="150" y="150" transform="translate(0, 200) rotate(0 160 160)"> ? </text>
+
+  </svg>
+</body>
+</html>
