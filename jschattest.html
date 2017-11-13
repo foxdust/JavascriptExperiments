@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+#panels {
+    padding: 10px;
+    text-align: center;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;
+    vertical-align: bottom;
+    text-align: left;
+}
+#buttons {
+    text-align: center;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;
+	height: 400px;
+    width: 500px;
+    overflow:hidden;
+}
+#container {
+    height: -webkit-calc(100% + 20px);
+    height:    -moz-calc(100% + 20px);
+    height:         calc(100% + 20px);
+    width: -webkit-calc(100% + 20px);
+    width:    -moz-calc(100% + 20px);
+    width:         calc(100% + 20px);
+    overflow:scroll;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(document).on('click',"p", 
+    	function(){
+	        dothething("clicked!");
+    	}
+    );
+    scrollDown();
+    function scrollDown(){
+			$('#container').stop().animate({
+				scrollTop: $('#container')[0].scrollHeight
+			},
+            {
+            complete: function(){ overKill() },
+            duration: 1000,
+            easing: "linear"
+            });
+    }
+    function overKill(){
+    	while ($('#container')[0].scrollHeight > $('#buttons').height() + 200) {
+        	$("#container div").first().remove();
+        }
+        setTimeeout(worker, 4000);
+    }
+    function dothething(buttontext){
+//    	var text = '<div id="panels" style="display:none"><p>'+buttontext+'</p></div>';
+    	var text = '<div id="panels" style="display:none"><p>'+buttontext+'</p></div>';
+        if ($('#panels').length > 0) {
+		    $("#container div").last().after(text);
+        }
+        else {
+            $("#container").append(text);
+        }
+            
+//	    $("#container div").first().slideUp("slow");
+	//	    $("#container div").first().hide();
+      $("#container div").last().slideDown("slow", function() {
+//        	$("#container div").first().remove();
+            scrollDown();
+        });
+        
+    }
+	(function worker() {
+  		$.ajax({
+	    	url: 'ajax_info.txt', 
+	    	success: function(data) {
+	      		$('.result').html(data);
+	    	},
+    		complete: function() {
+            	dothething('<b>Name: </b>Button text!');
+      			// Schedule the next request when the current one's complete
+      			setTimeout(worker, 4000);
+	    	}
+  		});
+	})();
+});
+</script>
+</head>
+<body>
+<div id = "buttons" style="contai">
+<div id = "container">
+</div>
+</div>
+
+</body>
+</html>
